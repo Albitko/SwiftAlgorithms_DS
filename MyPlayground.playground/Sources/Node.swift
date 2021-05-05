@@ -26,6 +26,39 @@ public struct LinkedList<Value> {
         if tail == nil {
       tail = head }
     }
+    @discardableResult
+    public mutating func pop() -> Value? {
+        defer {
+            head = head?.next
+            if isEmpty {
+        tail = nil }
+        }
+          return head?.value
+        
+    }
+    
+    @discardableResult
+    public mutating func removeLast() -> Value? {
+    // 1
+      guard let head = head else {
+        return nil
+    }
+    // 2
+      guard head.next != nil else {
+        return pop()
+    }
+    // 3
+      var prev = head
+      var current = head
+      while let next = current.next {
+        prev = current
+        current = next
+    }
+    // 4
+      prev.next = nil
+      tail = prev
+      return current.value
+    }
 
     public mutating func append(_ value: Value) {
     // 1
